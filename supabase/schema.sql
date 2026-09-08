@@ -72,15 +72,48 @@ create table if not exists favorites (
   primary key (user_id, product_id)
 );
 
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  insert into public.profiles (id, full_name, role)
+  values (new.id, coalesce(new.raw_user_meta_data->>'full_name',''), 'customer')
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+after insert on auth.users
+for each row execute procedure public.handle_new_user();
+
 alter table products enable row level security;
 alter table profiles enable row level security;
 alter table orders enable row level security;
 alter table order_items enable row level security;
 alter table favorites enable row level security;
 
+drop policy if exists "Public can read active products" on products;
 create policy "Public can read active products" on products for select using (is_active = true);
+
+drop policy if exists "Users can read own profile" on profiles;
 create policy "Users can read own profile" on profiles for select using (auth.uid() = id);
+
+drop policy if exists "Users can update own profile" on profiles;
 create policy "Users can update own profile" on profiles for update using (auth.uid() = id);
+
+drop policy if exists "Users can read own orders" on orders;
 create policy "Users can read own orders" on orders for select using (auth.uid() = user_id);
+
+drop policy if exists "Users can read own favorites" on favorites;
 create policy "Users can read own favorites" on favorites for select using (auth.uid() = user_id);
+
+drop policy if exists "Users can manage own favorites" on favorites;
 create policy "Users can manage own favorites" on favorites for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('product-images', 'product-images', true, 6291456, array['image/jpeg','image/png','image/webp','image/avif'])
+on conflict (id) do update set public = excluded.public, file_size_limit = excluded.file_size_limit, allowed_mime_types = excluded.allowed_mime_types;
