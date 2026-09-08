@@ -5,15 +5,19 @@ Base de e-commerce em **Next.js + TypeScript + Supabase**, criada para a G&M Imp
 ## O que já existe
 
 - Home premium e responsiva
-- Catálogo de Body Splashes
+- Catálogo conectado ao Supabase
 - Busca e filtros por família olfativa e vibe
 - Favoritos em interface
 - Carrinho em interface
 - Estrutura para G&M Fragrance Finder
-- Catálogo tipado em TypeScript
 - Supabase preparado para autenticação, produtos, favoritos e pedidos
-- SQL inicial com RLS
-- Estrutura de painel administrativo em `/admin`
+- SQL com RLS
+- Painel administrativo funcional em `/admin`
+- Cadastro, edição e exclusão de produtos
+- Controle de preço, estoque, SKU, volume, família olfativa, notas, vibe e ocasião
+- Upload de imagem principal para Supabase Storage
+- Publicação automática de produtos ativos no catálogo da home
+- API protegida para operações administrativas
 - API de checkout em `/api/checkout`
 - Variáveis de ambiente em `.env.example`
 - Estrutura preparada para Mercado Pago
@@ -44,9 +48,43 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 Nunca envie `.env.local` ou chaves privadas para o GitHub.
 
-## Produtos e imagens reais
+## Criando a primeira administradora
 
-O catálogo inicial contém nomes reais de fragrâncias apenas como referência de desenvolvimento. O campo `image` está vazio de propósito. Use somente fotos próprias da G&M Imports, fotos fornecidas pelo fornecedor com autorização comercial ou imagens oficiais cujo uso tenha sido autorizado.
+1. No Supabase, abra **Authentication > Users** e crie a usuária administrativa.
+2. Execute no SQL Editor, substituindo o e-mail pelo e-mail utilizado:
+
+```sql
+update public.profiles
+set role = 'admin'
+where id = (
+  select id from auth.users where email = 'SEU_EMAIL_AQUI'
+);
+```
+
+3. Abra `/admin` no site e entre com esse e-mail e senha.
+
+## Painel administrativo
+
+No `/admin` é possível:
+
+- cadastrar novos produtos
+- editar produtos existentes
+- excluir produtos
+- controlar estoque
+- cadastrar preço normal e promocional
+- informar SKU e volume
+- cadastrar família olfativa
+- cadastrar notas de saída, coração e fundo
+- informar vibe e ocasiões
+- ajustar doçura, intensidade e frescor
+- marcar produto como ativo, novidade ou destaque
+- enviar foto real do produto
+
+Produtos marcados como **ativos** aparecem automaticamente no catálogo da home quando o Supabase estiver conectado.
+
+## Imagens reais
+
+O bucket `product-images` é criado pelo `supabase/schema.sql`. Use somente fotos próprias da G&M Imports, fotos fornecidas por fornecedores com autorização comercial ou imagens oficiais cujo uso tenha sido autorizado.
 
 ## Banco de dados
 
@@ -57,20 +95,20 @@ O schema inclui:
 - `orders`
 - `order_items`
 - `favorites`
+- bucket público `product-images`
 
-Também há políticas iniciais de Row Level Security.
+Também há políticas iniciais de Row Level Security. As gravações administrativas passam por rotas protegidas no servidor e usam a service role somente após confirmar que o usuário autenticado possui `role = admin`.
 
 ## Próximas integrações
 
-Para operação comercial ainda é necessário configurar serviços externos reais:
+Para operação comercial completa ainda é necessário configurar:
 
-- Supabase Auth e Storage
-- Mercado Pago/Pix
+- Mercado Pago/Pix real
 - cálculo de frete por CEP/transportadora
 - webhooks de pagamento
-- painel admin conectado ao banco
-- upload de fotos
-- controle transacional de estoque
+- baixa transacional de estoque após pagamento
+- histórico de pedidos no painel
+- cupons
 - e-mail transacional
 - WhatsApp
 - Meta Pixel / GA4 / GTM
