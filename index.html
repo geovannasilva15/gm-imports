@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>G&M Imports — Fragrâncias importadas</title>
+  <meta name="description" content="Boutique digital de fragrâncias importadas, body splashes e autocuidado." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">Envio para todo o Brasil • Compra segura • Novidades toda semana</div>
+  <header class="header">
+    <a class="brand" href="#home"><span>G&M</span><small>IMPORTS</small></a>
+    <nav class="nav" id="nav">
+      <a href="#home">Início</a><a href="#novidades">Novidades</a><a href="#body-splash">Body Splash</a><a href="#quiz">Descobrir fragrância</a><a href="#mais-vendidos">Mais vendidos</a><a href="#ofertas">Ofertas</a>
+    </nav>
+    <div class="actions">
+      <button id="searchBtn" aria-label="Buscar">⌕</button>
+      <button id="favoritesBtn" aria-label="Favoritos">♡ <span id="favCount">0</span></button>
+      <button id="cartBtn" aria-label="Carrinho">🛍 <span id="cartCount">0</span></button>
+      <button class="menu" id="menuBtn" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <span class="eyebrow">Boutique de fragrâncias importadas</span>
+        <h1>Sua fragrância favorita, mais perto de você.</h1>
+        <p>Descubra body splashes, perfumes e produtos de autocuidado selecionados com uma experiência de compra feminina, elegante e personalizada.</p>
+        <div class="hero-buttons"><a class="btn primary" href="#body-splash">Comprar agora</a><a class="btn secondary" href="#quiz">Descobrir minha fragrância</a></div>
+        <div class="hero-proof"><span>♡ Curadoria G&M</span><span>✦ Compra segura</span><span>↗ Envio nacional</span></div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-badge">BODY SPLASH MATCH</div>
+        <div class="perfume-visual">G&M</div>
+        <h3>Qual combina com você hoje?</h3>
+        <p>Escolha pela sua vibe, família olfativa ou ocasião.</p>
+        <a href="#quiz">Fazer meu match →</a>
+      </div>
+    </section>
+
+    <section class="section" id="body-splash">
+      <div class="section-head">
+        <div><span class="eyebrow">Encontre seu favorito</span><h2>Body Splashes</h2><p>Explore por aroma, personalidade, intensidade e momento.</p></div>
+        <div class="sort-wrap"><label for="sort">Ordenar</label><select id="sort"><option value="featured">Destaques</option><option value="price-asc">Menor preço</option><option value="price-desc">Maior preço</option><option value="rating">Melhores avaliações</option></select></div>
+      </div>
+
+      <div class="filters">
+        <div><span>Vibe</span><button data-filter="vibe" data-value="Romântica">Romântica</button><button data-filter="vibe" data-value="Doce">Doce</button><button data-filter="vibe" data-value="Sensual">Sensual</button><button data-filter="vibe" data-value="Fresca">Fresca</button><button data-filter="vibe" data-value="Elegante">Elegante</button></div>
+        <div><span>Família</span><button data-filter="family" data-value="Floral">Floral</button><button data-filter="family" data-value="Frutado">Frutado</button><button data-filter="family" data-value="Gourmand">Gourmand</button><button data-filter="family" data-value="Fresco">Fresco</button></div>
+        <div><span>Intensidade</span><button data-filter="intensity" data-value="Leve">Leve</button><button data-filter="intensity" data-value="Moderada">Moderada</button><button data-filter="intensity" data-value="Marcante">Marcante</button></div>
+        <button class="clear" id="clearFilters">Limpar filtros</button>
+      </div>
+
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section class="quiz-section" id="quiz">
+      <div class="quiz-copy"><span class="eyebrow">G&M Fragrance Finder</span><h2>Descubra seu Body Splash ideal</h2><p>Responda algumas perguntas e receba recomendações com base na sua vibe e preferência olfativa.</p></div>
+      <div class="quiz-card" id="quizCard">
+        <div id="quizProgress" class="progress">1 de 5</div>
+        <h3 id="quizQuestion"></h3>
+        <div id="quizOptions" class="quiz-options"></div>
+        <button id="quizRestart" class="text-btn hidden">Refazer quiz</button>
+      </div>
+    </section>
+
+    <section class="section split" id="compare">
+      <div><span class="eyebrow">Compare antes de escolher</span><h2>Ficou em dúvida?</h2><p>Selecione até três fragrâncias e veja lado a lado família olfativa, intensidade, notas e ocasião.</p><button class="btn secondary" id="openCompare">Comparar fragrâncias</button></div>
+      <div class="compare-preview" id="comparePreview"><span>0/3 selecionadas</span><p>Use o botão “Comparar” nos cards dos produtos.</p></div>
+    </section>
+
+    <section class="section" id="novidades"><div class="section-head"><div><span class="eyebrow">Acabou de chegar</span><h2>Novidades G&M</h2></div></div><div class="mini-grid" id="newGrid"></div></section>
+
+    <section class="editorial" id="mais-vendidos"><div><span class="eyebrow">Curadoria</span><h2>Seu cheiro. Sua assinatura.</h2><p>Fragrâncias que acompanham sua rotina, sua personalidade e seus momentos.</p><a class="btn primary" href="#body-splash">Descobrir fragrâncias</a></div></section>
+
+    <section class="section reviews"><span class="eyebrow">Quem compra, se apaixona ♡</span><h2>A experiência também faz parte da fragrância.</h2><div class="review-grid"><article><b>★★★★★</b><p>“A navegação ficou muito fácil. Consigo entender as notas antes de comprar.”</p><small>Experiência demonstrativa</small></article><article><b>★★★★★</b><p>“A comparação e o quiz deixam a escolha muito mais divertida.”</p><small>Experiência demonstrativa</small></article><article><b>★★★★★</b><p>“Visual elegante e sem excesso de rosa. Parece uma boutique.”</p><small>Experiência demonstrativa</small></article></div></section>
+
+    <section class="newsletter"><div><span class="eyebrow">Entre para o universo G&M</span><h2>Novidades, lançamentos e ofertas especiais.</h2></div><form id="newsletterForm"><input type="email" placeholder="Seu melhor e-mail" required><button class="btn primary">Quero receber</button></form></section>
+  </main>
+
+  <footer><div class="brand"><span>G&M</span><small>IMPORTS</small></div><p>Loja independente de produtos importados. Marcas de terceiros pertencem aos seus respectivos titulares.</p><div class="footer-links"><a href="#">Instagram</a><a href="#">WhatsApp</a><a href="#">Privacidade</a><a href="#">Trocas e devoluções</a></div></footer>
+
+  <aside class="drawer" id="cartDrawer"><div class="drawer-head"><h3>Seu carrinho</h3><button data-close="cartDrawer">×</button></div><div id="cartItems"></div><div class="drawer-foot"><div><span>Subtotal</span><strong id="cartSubtotal">R$ 0,00</strong></div><button class="btn primary full">Finalizar compra</button></div></aside>
+  <aside class="drawer" id="favoritesDrawer"><div class="drawer-head"><h3>Favoritos</h3><button data-close="favoritesDrawer">×</button></div><div id="favoritesItems"></div></aside>
+
+  <div class="modal" id="searchModal"><div class="modal-box"><button class="modal-close" data-close="searchModal">×</button><h3>Buscar produtos</h3><input id="searchInput" placeholder="Ex.: baunilha, floral, presente, Pure Seduction…"><div id="searchResults" class="search-results"></div></div></div>
+  <div class="modal" id="compareModal"><div class="modal-box wide"><button class="modal-close" data-close="compareModal">×</button><h3>Comparar fragrâncias</h3><div id="compareTable"></div></div></div>
+
+  <a class="whatsapp" href="https://wa.me/?text=Olá!%20Vim%20pelo%20site%20da%20G%26M%20Imports%20e%20gostaria%20de%20ajuda%20para%20escolher%20uma%20fragrância." target="_blank" rel="noreferrer">WhatsApp</a>
+  <script src="app.js"></script>
+</body>
+</html>
